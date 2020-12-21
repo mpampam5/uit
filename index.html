@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.1.1">
+    <title>Wisudawan UIT </title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/starter-template/">
+
+    <!-- Bootstrap core CSS -->
+<link href="assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/dist/css/animate.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+  </head>
+  <body>
+
+
+<main role="main" class="container">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="loading spinner-border text-primary" style="display:none;" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+
+      <div class="img-wisuda"></div>
+    </div>
+
+    <div class="col-lg-8 pl-5 pt-5">
+
+      <div class="row data">
+        <div class="col-lg-3 label">
+          <label for="">NPM</label>
+          <span>:</span>
+        </div>
+        <div class="col-lg-9 text npm"></div>
+      </div>
+
+      <div class="row data">
+        <div class="col-lg-3 label">
+          <label for="">Nama</label>
+          <span>:</span>
+        </div>
+        <div class="col-lg-9 text nama"></div>
+      </div>
+
+      <div class="row data">
+        <div class="col-lg-3 label">
+          <label for="">Alamat</label>
+          <span>:</span>
+        </div>
+        <div class="col-lg-9 text alamat"></div>
+      </div>
+
+
+      <div class="col-lg-12 button">
+        <a href="#" class="btn btn-md btn-primary prev animated fadeInRight delay-3s">Sebelum</a>
+        <a href="#" class="btn btn-md btn-primary next animated fadeInRight delay-4s">Berikut</a>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+</main><!-- /.container -->
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"></script>
+<script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  let next = getUrlVars("page");
+  let prevv = parseInt(next) - 1;
+  let nextt = parseInt(next) + 1;
+
+  $('.loading').show();
+
+  $('.next').attr('href','?page='+nextt);
+
+  if (prevv == 0) {
+    $('.prev').attr('href','javascript:void(0)');
+  }else {
+    $('.prev').attr('href','?page='+prevv);
+  }
+
+  $.get('http://api.wisuda.uit.ac.id/peserta?page='+next, function(datas) {
+		let res = (datas);
+    $('.loading').hide();
+    console.log(res.data.data[0]);
+    let npm = res.data.data[0].npm;
+    let nama = res.data.data[0].nama;
+    let alamat = res.data.data[0].alamat_rumah;
+    let foto = res.data.data[0].berkas_photo;
+
+    var photos = 'default.png';
+    if (foto!==null) {
+      let foto_replace = foto.replace(/public/gi, "");
+      var photos = 'https://uit.ac.id/storage'+foto_replace;
+    }
+
+
+    $('.npm').html('<div class="animated fadeInRight delay-3s">'+npm+'</div>');
+    $('.nama').html('<div class="animated fadeInRight delay-4s">'+nama+'</div>');
+    $('.alamat').html('<div class="animated fadeInRight delay-5s">'+alamat+'</div>');
+    $('.img-wisuda').html('<img src="'+photos+'" alt="" width="100%" class="images img-thumbnail animated fadeInLeft delay-3s" alt="Responsive image">');
+	}).fail(function() {
+    alert("error");
+	});
+
+  function getUrlVars(param=null)
+  {
+    let url = $(location).attr("href");
+  	if (url.match(/page=/)) {
+      if(param !== null)
+    	{
+    		var vars = [], hash;
+    		var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    		for(var i = 0; i < hashes.length; i++)
+    		{
+    			hash = hashes[i].split('=');
+    			vars.push(hash[0]);
+    			vars[hash[0]] = hash[1];
+    		}
+    		return vars[param];
+    	}
+    	else
+    	{
+    		return 1;
+    	}
+    }else {
+      return 1;
+    }
+}
+
+});
+</script>
+</html>
