@@ -92,25 +92,31 @@ $(document).ready(function(){
   }
 
   $.get('http://api.wisuda.uit.ac.id/peserta?page='+next, function(datas) {
-		let res = (datas);
-    $('.loading').hide();
-    console.log(res.data.data[0]);
-    let npm = res.data.data[0].npm;
-    let nama = res.data.data[0].nama;
-    let alamat = res.data.data[0].alamat_rumah;
-    let foto = res.data.data[0].berkas_photo;
+		  let res = (datas);
+      $('.loading').hide();
+      console.log(res.data.data[0]);
+      let npm = res.data.data[0].npm;
+      let nama = res.data.data[0].nama;
+      let alamat = res.data.data[0].alamat_rumah;
+      let foto = res.data.data[0].berkas_photo;
+      let total = res.data.total;
 
-    var photos = 'default.png';
-    if (foto!==null) {
-      let foto_replace = foto.replace(/public/gi, "");
-      var photos = 'https://uit.ac.id/storage'+foto_replace;
-    }
+      var photos = 'default.png';
+      if (foto!==null) {
+        let foto_replace = foto.replace(/public/gi, "");
+        var photos = 'https://uit.ac.id/storage'+foto_replace;
+      }
+
+      if (next == total) {
+        $('.next').hide();
+      }
 
 
-    $('.npm').html('<div class="animated fadeInRight delay-3s">'+npm+'</div>');
-    $('.nama').html('<div class="animated fadeInRight delay-4s">'+nama+'</div>');
-    $('.alamat').html('<div class="animated fadeInRight delay-5s">'+alamat+'</div>');
-    $('.img-wisuda').html('<img src="'+photos+'" alt="" width="100%" class="images img-thumbnail animated fadeInLeft delay-3s" alt="Responsive image">');
+        $('.npm').html('<div class="animated fadeInRight delay-3s">'+npm+'</div>');
+        $('.nama').html('<div class="animated fadeInRight delay-4s">'+nama+'</div>');
+        $('.alamat').html('<div class="animated fadeInRight delay-5s">'+alamat+'</div>');
+        $('.img-wisuda').html('<img src="'+photos+'" alt="" width="100%" class="images img-thumbnail animated fadeInLeft delay-3s" alt="Responsive image">');
+
 	}).fail(function() {
     alert("error");
 	});
