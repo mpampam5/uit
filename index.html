@@ -86,7 +86,8 @@ $(document).ready(function(){
   $('.next').attr('href','?page='+nextt);
 
   if (prevv == 0) {
-    $('.prev').attr('href','javascript:void(0)');
+    $('.prev').attr('href','javascript:void(0)')
+    .removeClass( "btn-primary" ).addClass( "btn-danger" );
   }else {
     $('.prev').attr('href','?page='+prevv);
   }
@@ -108,7 +109,8 @@ $(document).ready(function(){
       }
 
       if (next == total) {
-        $('.next').hide();
+        $('.next').attr('href','javascript:void(0)').
+        removeClass( "btn-primary" ).addClass( "btn-danger" )
       }
 
 
