@@ -158,7 +158,8 @@ $(document).ready(function(){
       let data_status = res.data.data[0];
 
     if (data_status == undefined) {
-
+          $('.next').attr('href','javascript:void(0)').
+          removeClass( "btn-primary" ).addClass( "btn-danger" );
             $('.npm').html('<div class="animated fadeInRight delay-3s">NULL</div>');
             $('.nama').html('<div class="animated fadeInRight delay-4s">NULL</div>');
             $('.alamat').html('<div class="animated fadeInRight delay-5s">NULL</div>');
@@ -175,7 +176,7 @@ $(document).ready(function(){
               var photos = 'https://uit.ac.id/storage'+foto_replace;
             }
 
-            if (next == total) {
+            if (next == total ) {
               $('.next').attr('href','javascript:void(0)').
               removeClass( "btn-primary" ).addClass( "btn-danger" )
             }
