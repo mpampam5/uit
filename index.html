@@ -56,15 +56,59 @@
         <div class="col-lg-9 text alamat"></div>
       </div>
 
-
-      <div class="col-lg-12 button">
-        <a href="#" class="btn btn-md btn-primary prev animated fadeInRight delay-3s">Sebelum</a>
-        <a href="#" class="btn btn-md btn-primary next animated fadeInRight delay-4s">Berikut</a>
-      </div>
-
     </div>
 
+    <div class="button">
+      <table>
+        <tr>
+          <td class="pt-1">
+            <div class="form-group">
+              <select class="form-control form-control-sm prodi" name="prodi" id="prodi">
+                <option value="1">S1 INFORMATIKA</option>
+                <option value="2">S1 ILMU PEMERINTAHAN</option>
+                <option value="3">D3 ANALIS KESEHATAN</option>
+                <option value="4">D3 KEBIDANAN</option>
+                <option value="5">BID PENDIDIK</option>
+                <option value="6">AKUNTANSI</option>
+                <option value="7">FARMASI</option>
+                <option value="8">S1 ILMU ADM NEGARA</option>
+                <option value="9">S1 ILMU HUKUM</option>
+                <option value="10">ILMU KEPERAWATAN</option>
+                <option value="11">S1 KEHUTANAN</option>
+                <option value="12">MAGISTER KESEHATAN MASYARAKAT</option>
+                <option value="13">MANAJEMEN</option>
+                <option value="14">PAI</option>
+                <option value="15">PSIKOLOGI</option>
+                <option value="16">TEK. PERTANIAN</option>
+              </select>
+            </div>
+          </td>
 
+          <td class="pt-1">
+            <div class="form-group">
+              <select class="form-control form-control-sm status" name="status" id="status">
+                <option value="luring">Luring</option>
+                <option value="daring">Daring</option>
+              </select>
+            </div>
+          </td>
+
+
+          <td css="pr-4">
+            <button type="button" name="button" class="btn btn-sm btn-dark set-status"> Set Status</button>
+          </td>
+
+          <td width="40px">&nbsp;</td>
+
+          <td>
+            <a href="#" class="btn btn-sm btn-primary prev animated fadeInRight delay-3s">Sebelum</a>
+            <a href="#" class="btn btn-sm btn-primary next animated fadeInRight delay-4s">Berikut</a>
+          </td>
+        </tr>
+      </table>
+
+
+    </div>
 
   </div>
 
@@ -78,50 +122,83 @@
 <script type="text/javascript">
 $(document).ready(function(){
   let next = getUrlVars("page");
+  var prodi = getUrlVars("id_prodi");
+  var status = getUrlVars("status_wisuda");
   let prevv = parseInt(next) - 1;
   let nextt = parseInt(next) + 1;
 
   $('.loading').show();
 
-  $('.next').attr('href','?page='+nextt);
+  $('.next').attr('href','?page='+nextt+'&id_prodi='+prodi+'&status_wisuda='+status);
 
   if (prevv == 0) {
     $('.prev').attr('href','javascript:void(0)')
     .removeClass( "btn-primary" ).addClass( "btn-danger" );
   }else {
-    $('.prev').attr('href','?page='+prevv);
+    $('.prev').attr('href','?page='+prevv+'&id_prodi='+prodi+'&status_wisuda='+status);
   }
 
-  $.get('http://api.wisuda.uit.ac.id/peserta?page='+next, function(datas) {
+  $('#prodi').find("option").each(function(){
+    if ($(this).val() == prodi){
+      $(this).attr("selected","selected");
+    }
+  });
+
+
+  $("#status option").each(function(){
+    if ($(this).val() == status){
+      $(this).attr("selected","selected");
+    }
+  });
+
+  $.get('http://api.wisuda.uit.ac.id/peserta?page='+next+'&id_prodi='+prodi+'&status_wisuda='+status, function(datas) {
 		  let res = (datas);
       $('.loading').hide();
       console.log(res.data.data[0]);
+      let data_status = res.data.data[0];
+
+    if (data_status == undefined) {
+
+            $('.npm').html('<div class="animated fadeInRight delay-3s">NULL</div>');
+            $('.nama').html('<div class="animated fadeInRight delay-4s">NULL</div>');
+            $('.alamat').html('<div class="animated fadeInRight delay-5s">NULL</div>');
+            $('.img-wisuda').html('<div class="text-white animated fadeInRight delay-5s">NULL</div>');
+    }else {
       let npm = res.data.data[0].npm;
       let nama = res.data.data[0].nama;
       let alamat = res.data.data[0].alamat_rumah;
       let foto = res.data.data[0].berkas_photo;
       let total = res.data.total;
+            var photos = 'default.png';
+            if (foto!==null) {
+              let foto_replace = foto.replace(/public/gi, "");
+              var photos = 'https://uit.ac.id/storage'+foto_replace;
+            }
 
-      var photos = 'default.png';
-      if (foto!==null) {
-        let foto_replace = foto.replace(/public/gi, "");
-        var photos = 'https://uit.ac.id/storage'+foto_replace;
-      }
-
-      if (next == total) {
-        $('.next').attr('href','javascript:void(0)').
-        removeClass( "btn-primary" ).addClass( "btn-danger" )
-      }
+            if (next == total) {
+              $('.next').attr('href','javascript:void(0)').
+              removeClass( "btn-primary" ).addClass( "btn-danger" )
+            }
 
 
-        $('.npm').html('<div class="animated fadeInRight delay-3s">'+npm+'</div>');
-        $('.nama').html('<div class="animated fadeInRight delay-4s">'+nama+'</div>');
-        $('.alamat').html('<div class="animated fadeInRight delay-5s">'+alamat+'</div>');
-        $('.img-wisuda').html('<img src="'+photos+'" alt="" width="100%" class="images img-thumbnail animated fadeInLeft delay-3s" alt="Responsive image">');
+              $('.npm').html('<div class="animated fadeInRight delay-3s">'+npm+'</div>');
+              $('.nama').html('<div class="animated fadeInRight delay-4s">'+nama+'</div>');
+              $('.alamat').html('<div class="animated fadeInRight delay-5s">'+alamat+'</div>');
+              $('.img-wisuda').html('<img src="'+photos+'" alt="" width="100%" class="images img-thumbnail animated fadeInLeft delay-3s" alt="Responsive image">');
 
+    }
 	}).fail(function() {
     alert("error");
 	});
+
+
+  $(document).on("click",".set-status", function(e){
+    e.preventDefault();
+    let prodi = $('#prodi option:selected').val();
+    let status = $('#status option:selected').val();
+
+    window.location.href = 'index.html?page=1&id_prodi='+prodi+'&status_wisuda='+status;
+  });
 
   function getUrlVars(param=null)
   {

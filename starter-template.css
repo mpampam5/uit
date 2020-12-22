@@ -72,13 +72,12 @@ body {
 }
 
 .button{
-  /* position: absolute;
-  bottom: 0!important;
-  right: 100px; */
+  position: absolute;
+  bottom:10px;
+  right: 50px;
   text-align: left;
-  margin-top: 150px;
 }
 
-.button a{
+.button a, button{
   margin: 0 10px 10px 0;
 }
