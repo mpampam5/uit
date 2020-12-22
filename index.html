@@ -34,6 +34,14 @@
 
       <div class="row data">
         <div class="col-lg-3 label">
+          <label for="">No.Dada</label>
+          <span>:</span>
+        </div>
+        <div class="col-lg-9 text no_dada"></div>
+      </div>
+
+      <div class="row data">
+        <div class="col-lg-3 label">
           <label for="">NPM</label>
           <span>:</span>
         </div>
@@ -46,6 +54,14 @@
           <span>:</span>
         </div>
         <div class="col-lg-9 text nama"></div>
+      </div>
+
+      <div class="row data">
+        <div class="col-lg-3 label">
+          <label for="">Prodi</label>
+          <span>:</span>
+        </div>
+        <div class="col-lg-9 text prodis"></div>
       </div>
 
       <div class="row data">
@@ -98,7 +114,9 @@
             <button type="button" name="button" class="btn btn-sm btn-dark set-status"> Set Status</button>
           </td>
 
-          <td width="40px">&nbsp;</td>
+          <td class="pb-2 pr-3 text-white">
+            Total : <span class="total" style="font-weight:bold">Null</span> | To : <span class="to" style="font-weight:bold">Null</span>
+          </td>
 
           <td>
             <a href="#" class="btn btn-sm btn-primary prev animated fadeInRight delay-3s">Sebelum</a>
@@ -160,8 +178,10 @@ $(document).ready(function(){
     if (data_status == undefined) {
           $('.next').attr('href','javascript:void(0)').
           removeClass( "btn-primary" ).addClass( "btn-danger" );
-            $('.npm').html('<div class="animated fadeInRight delay-3s">NULL</div>');
-            $('.nama').html('<div class="animated fadeInRight delay-4s">NULL</div>');
+            $('.no_dada').html('<div class="animated fadeInRight delay-1s">NULL</div>');
+            $('.npm').html('<div class="animated fadeInRight delay-2s">NULL</div>');
+            $('.nama').html('<div class="animated fadeInRight delay-3s">NULL</div>');
+            $('.prodis').html('<div class="animated fadeInRight delay-4s">NULL</div>');
             $('.alamat').html('<div class="animated fadeInRight delay-5s">NULL</div>');
             $('.img-wisuda').html('<div class="text-white animated fadeInRight delay-5s">NULL</div>');
     }else {
@@ -169,6 +189,9 @@ $(document).ready(function(){
       let nama = res.data.data[0].nama;
       let alamat = res.data.data[0].alamat_rumah;
       let foto = res.data.data[0].berkas_photo;
+      let no_dada = res.data.data[0].nomor_dada;
+      let prodis = res.data.data[0].prodi;
+      let to   = res.data.to;
       let total = res.data.total;
             var photos = 'default.png';
             if (foto!==null) {
@@ -181,9 +204,12 @@ $(document).ready(function(){
               removeClass( "btn-primary" ).addClass( "btn-danger" )
             }
 
-
-              $('.npm').html('<div class="animated fadeInRight delay-3s">'+npm+'</div>');
-              $('.nama').html('<div class="animated fadeInRight delay-4s">'+nama+'</div>');
+              $('.total').html(total);
+              $('.to').html(to);
+              $('.no_dada').html('<div class="animated fadeInRight delay-1s">'+no_dada+'</div>');
+              $('.npm').html('<div class="animated fadeInRight delay-2s">'+npm+'</div>');
+              $('.nama').html('<div class="animated fadeInRight delay-3s">'+nama+'</div>');
+              $('.prodis').html('<div class="animated fadeInRight delay-4s">'+prodis+'</div>');
               $('.alamat').html('<div class="animated fadeInRight delay-5s">'+alamat+'</div>');
               $('.img-wisuda').html('<img src="'+photos+'" alt="" width="100%" class="images img-thumbnail animated fadeInLeft delay-3s" alt="Responsive image">');
 

@@ -35,16 +35,24 @@ body {
   left: 40%;
 }
 
-.delay-3s{
+.delay-1s{
   animation-duration: 1s;
 }
 
-.delay-4s{
+.delay-2s{
   animation-duration: 2s;
 }
 
-.delay-5s{
+.delay-3s{
   animation-duration: 3s;
+}
+
+.delay-4s{
+  animation-duration: 4s;
+}
+
+.delay-5s{
+  animation-duration: 5s;
 }
 
 .images{
